@@ -1,21 +1,8 @@
 export default function handler(req, res) {
   const jobs = [
-    {
-      id: '1',
-      title: 'Frontend Engineer',
-      slug: 'frontend-engineer-1',
-      status: 'active',
-      tags: ['remote'],
-      order: 0
-    },
-    {
-      id: '2',
-      title: 'Backend Engineer',
-      slug: 'backend-engineer-2',
-      status: 'active',
-      tags: ['onsite'],
-      order: 1
-    }
+    { id: '1', title: 'Frontend Engineer', slug: 'frontend-engineer-1', status: 'active', tags: ['remote'], order: 0 },
+    { id: '2', title: 'Backend Engineer', slug: 'backend-engineer-2', status: 'active', tags: ['onsite'], order: 1 },
+    { id: '3', title: 'Fullstack Engineer', slug: 'fullstack-engineer-3', status: 'active', tags: ['hybrid'], order: 2 }
   ];
   const { url, method } = req;
   const idMatch = url.match(/^\/api\/jobs\/(\w+)/);

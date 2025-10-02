@@ -9,6 +9,13 @@ export type Candidate = {
   stage: 'applied'|'screen'|'tech'|'offer'|'hired'|'rejected';
 };
 
+function getApiBase(path: string) {
+  if (import.meta.env.MODE === 'production') {
+    if (path.startsWith('/candidates')) return '/api' + path;
+  }
+  return path;
+}
+
 export function useCandidates(params: { search?: string; stage?: string; page?: number; pageSize?: number }) {
   const query = new URLSearchParams();
   if (params.search) query.set('search', params.search);
@@ -18,7 +25,7 @@ export function useCandidates(params: { search?: string; stage?: string; page?: 
   return useQuery<{ items: Candidate[]; total: number; page: number; pageSize: number }>({
     queryKey: ['candidates', Object.fromEntries(query)],
     queryFn: async () => {
-      const res = await fetch(`/candidates?${query.toString()}`);
+      const res = await fetch(getApiBase(`/candidates?${query.toString()}`));
       if (!res.ok) throw new Error('Failed to fetch candidates');
       return res.json();
     },
@@ -29,7 +36,7 @@ export function useCandidate(id: string) {
   return useQuery<Candidate>({
     queryKey: ['candidate', id],
     queryFn: async () => {
-      const res = await fetch(`/candidates/${id}`);
+      const res = await fetch(getApiBase(`/candidates/${id}`));
       if (!res.ok) throw new Error('Failed to fetch candidate');
       return res.json();
     },
@@ -41,7 +48,7 @@ export function useAddCandidateNote(candidateId: string) {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: async (note: { content: string; mentions: string[] }) => {
-      const res = await fetch(`/candidates/${candidateId}/notes`, {
+  const res = await fetch(getApiBase(`/candidates/${candidateId}/notes`), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(note)
@@ -70,7 +77,7 @@ export function useCandidateNotes(candidateId: string) {
   }> }>({
     queryKey: ['candidate-notes', candidateId],
     queryFn: async () => {
-      const res = await fetch(`/candidates/${candidateId}/notes`);
+  const res = await fetch(getApiBase(`/candidates/${candidateId}/notes`));
       if (!res.ok) throw new Error('Failed to fetch notes');
       return res.json();
     },
@@ -82,7 +89,7 @@ export function useCandidateTimeline(id: string) {
   return useQuery<{ items: Array<{ id: string; timestamp: number; type: string; payload: any }> }>({
     queryKey: ['candidate', id, 'timeline'],
     queryFn: async () => {
-      const res = await fetch(`/candidates/${id}/timeline`);
+  const res = await fetch(getApiBase(`/candidates/${id}/timeline`));
       if (!res.ok) throw new Error('Failed to fetch timeline');
       return res.json();
     },
@@ -94,7 +101,7 @@ export function useUpdateCandidateStage() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: async (payload: { id: string; stage: Candidate['stage'] }) => {
-      const res = await fetch(`/candidates/${payload.id}`, {
+  const res = await fetch(getApiBase(`/candidates/${payload.id}`), {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ stage: payload.stage }),

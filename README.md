@@ -57,7 +57,7 @@ TalentFlow is a React application for HR teams to manage jobs, candidates, and a
 ## Setup & Running Locally
 1. **Clone the repo:**
 	```sh
-	git clone <your-repo-url>
+	git clone <https://github.com/kushagrapatodia/TalentFlow-Final.git>
 	cd talentflow
 	```
 2. **Install dependencies:**
@@ -76,8 +76,8 @@ TalentFlow is a React application for HR teams to manage jobs, candidates, and a
 ## Deployment
 - Deployed as a static SPA (no backend/serverless functions)
 - All data and logic run in the browser
-- [Deployed App Link](#) <!-- Replace with your Vercel link -->
-- [GitHub Repository Link](#) <!-- Replace with your repo link -->
+- [https://talent-flow-final-70qn5gqiw-kushagrapatodias-projects.vercel.app/](#)
+- [https://github.com/kushagrapatodia/TalentFlow-Final.git](#) 
 
 ---
 

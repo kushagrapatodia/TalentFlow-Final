@@ -106,7 +106,7 @@ TalentFlow is a React application for HR teams to manage jobs, candidates, and a
 - Optimistic UI with rollback on API error
 - Conditional logic in assessment forms
 - Virtualized candidate lists for performance
-
+- Seperate Dashboards for both candidate and Recruiter
 ---
 
 ## License

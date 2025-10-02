@@ -5,7 +5,6 @@ import App from './App.tsx'
 import { ensureSeedData } from './data/seed'
 
 async function enableMocking() {
-  if (import.meta.env.MODE !== 'development') return;
   const { worker } = await import('./mocks/browser');
   // Start without blocking initial render
   worker.start({ onUnhandledRequest: 'bypass' });

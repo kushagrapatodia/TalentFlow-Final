@@ -17,5 +17,15 @@ export default function handler(req, res) {
       order: 1
     }
   ];
+  const { url, method } = req;
+  const idMatch = url.match(/^\/api\/jobs\/(\w+)/);
+
+  if (idMatch && method === 'GET') {
+    const job = jobs.find(j => j.id === idMatch[1]);
+    if (job) return res.status(200).json(job);
+    return res.status(404).json({ error: 'Job not found' });
+  }
+
+  // List endpoint
   res.status(200).json({ items: jobs, total: jobs.length, page: 1, pageSize: 100 });
 }

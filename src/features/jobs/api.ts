@@ -1,12 +1,4 @@
 
-function getApiBase(path: string) {
-  if (import.meta.env.MODE === 'production') {
-    if (path.startsWith('/jobs')) return '/api' + path;
-    if (path.startsWith('/candidates')) return '/api' + path;
-    if (path.startsWith('/assessments')) return '/api' + path;
-  }
-  return path;
-}
 
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
@@ -30,7 +22,7 @@ export function useJob(id: string) {
   return useQuery<Job>({
     queryKey: ['job', id],
     queryFn: async () => {
-  const res = await fetch(getApiBase(`/jobs/${id}`));
+  const res = await fetch(`/jobs/${id}`);
       if (!res.ok) throw new Error('Failed to fetch job');
       return res.json();
     },
@@ -50,7 +42,7 @@ export function useJobs(params: { search?: string; status?: string; page?: numbe
   return useQuery<JobsListResponse>({
     queryKey: ['jobs', Object.fromEntries(query)],
     queryFn: async () => {
-  const res = await fetch(getApiBase(`/jobs?${query.toString()}`));
+  const res = await fetch(`/jobs?${query.toString()}`);
       if (!res.ok) throw new Error('Failed to fetch jobs');
       return res.json();
     },
@@ -61,7 +53,7 @@ export function useArchiveJob() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: async (payload: { id: string; status: 'active' | 'archived' }) => {
-  const res = await fetch(getApiBase(`/jobs/${payload.id}`), {
+  const res = await fetch(`/jobs/${payload.id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: payload.status }),
@@ -81,7 +73,7 @@ export function useCreateJob() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: async (payload: { title: string; slug: string; tags: string[] }) => {
-  const res = await fetch(getApiBase('/jobs'), {
+  const res = await fetch('/jobs', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
@@ -104,7 +96,7 @@ export function useUpdateJob() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: async (payload: { id: string; title?: string; slug?: string; tags?: string[]; status?: 'active'|'archived' }) => {
-  const res = await fetch(getApiBase(`/jobs/${payload.id}`), {
+  const res = await fetch(`/jobs/${payload.id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
@@ -125,7 +117,7 @@ export function useReorderJob() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: async (payload: { id: string; fromOrder: number; toOrder: number }) => {
-  const res = await fetch(getApiBase(`/jobs/${payload.id}/reorder`), {
+  const res = await fetch(`/jobs/${payload.id}/reorder`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),

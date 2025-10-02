@@ -76,7 +76,7 @@ TalentFlow is a React application for HR teams to manage jobs, candidates, and a
 ## Deployment
 - Deployed as a static SPA (no backend/serverless functions)
 - All data and logic run in the browser
-- [https://talent-flow-final-70qn5gqiw-kushagrapatodias-projects.vercel.app/](#)
+- [(https://talent-flow-final.vercel.app)](#)
 - [https://github.com/kushagrapatodia/TalentFlow-Final.git](#) 
 
 ---
